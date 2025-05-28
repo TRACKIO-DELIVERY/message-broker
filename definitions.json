@@ -3,7 +3,7 @@
     "users": [
         {
             "name": "order_user",
-            "password_hash": "VWi6wh2FVDl4d3BzZWKxP2ZazvE=",
+            "password_hash": "Oh6OQZyhG+a8OaM/7j1piQHak4hR7ebMEEHYHq4vtf0Q8NAs",
             "hashing_algorithm": "rabbit_password_hashing_sha256",
             "tags": "administrator"
         }
@@ -44,13 +44,36 @@
             "durable": true,
             "auto_delete": false,
             "arguments": {}
+        },
+        {
+            "name": "order.tracked.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "order.tracked.notification.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
         }
     ],
     "exchanges": [
         {
-            "name": "order.exchange",
+            "name": "order.direct",
             "vhost": "/",
-            "type": "topic",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "order.fanout",
+            "vhost": "/",
+            "type": "fanout",
             "durable": true,
             "auto_delete": false,
             "internal": false,
@@ -59,7 +82,7 @@
     ],
     "bindings": [
         {
-            "source": "order.exchange",
+            "source": "order.direct",
             "vhost": "/",
             "destination": "order.created.queue",
             "destination_type": "queue",
@@ -67,11 +90,27 @@
             "arguments": {}
         },
         {
-            "source": "order.exchange",
+            "source": "order.direct",
             "vhost": "/",
             "destination": "order.cancelled.queue",
             "destination_type": "queue",
             "routing_key": "order.cancelled",
+            "arguments": {}
+        },
+        {
+            "source": "order.fanout",
+            "vhost": "/",
+            "destination": "order.tracked.queue",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        },
+        {
+            "source": "order.fanout",
+            "vhost": "/",
+            "destination": "order.tracked.notification.queue",
+            "destination_type": "queue",
+            "routing_key": "",
             "arguments": {}
         }
     ]

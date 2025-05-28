@@ -7,15 +7,15 @@ services:
     ports:
       - "15672:15672" # RabbitMQ Management UI
       - "5672:5672" # RabbitMQ AMQP protocol
-    env_file:
-      - .env
     environment:
-      - RABBITMQ_LOAD_DEFINITIONS: /etc/rabbitmq/definitions.json
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-    networks:
-      - rabbitmq_net
-
-networks:
-  rabbitmq_net:
-    external: true
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./definitions.json:/etc/rabbitmq/definitions.json
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
