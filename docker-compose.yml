@@ -19,3 +19,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - rabbitmq_net
+      - default
+
+
+networks:
+  default:
+    driver: bridge
+  
+  rabbitmq_net:
+    driver: bridge
+    external: true
+    name: rabbitmq_net
