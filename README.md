@@ -26,8 +26,8 @@ docker network create rabbitmq_net
 - 🔗 Routing Key: `order.delivered`
   - 📥 Queue: `order.delivered.queue`
 
-- 🔗 Routing Key: `order.accepeted`
-  - 📥 Queue: `order.accepeted.queue`
+- 🔗 Routing Key: `order.accepted`
+  - 📥 Queue: `order.accepted.queue`
 
 
 ### 📣 Exchange: `order.fanout` (tipo: fanout)
