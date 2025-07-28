@@ -46,14 +46,28 @@
             "arguments": {}
         },
         {
-            "name": "order.tracked.queue",
+            "name": "order.in_route.queue",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
             "arguments": {}
         },
         {
-            "name": "order.tracked.notification.queue",
+            "name": "order.accepted.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "order.notification.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "order.delivered.queue",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
@@ -98,9 +112,33 @@
             "arguments": {}
         },
         {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.in_route.queue",
+            "destination_type": "queue",
+            "routing_key": "order.in_route",
+            "arguments": {}
+        },
+        {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.accepted.queue",
+            "destination_type": "queue",
+            "routing_key": "order.accepted",
+            "arguments": {}
+        },
+        {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.delivered.queue",
+            "destination_type": "queue",
+            "routing_key": "order.delivered",
+            "arguments": {}
+        },
+        {
             "source": "order.fanout",
             "vhost": "/",
-            "destination": "order.tracked.queue",
+            "destination": "order.in_route.queue",
             "destination_type": "queue",
             "routing_key": "",
             "arguments": {}
@@ -108,7 +146,7 @@
         {
             "source": "order.fanout",
             "vhost": "/",
-            "destination": "order.tracked.notification.queue",
+            "destination": "order.notification.queue",
             "destination_type": "queue",
             "routing_key": "",
             "arguments": {}
