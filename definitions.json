@@ -53,7 +53,21 @@
             "arguments": {}
         },
         {
+            "name": "order.accepted.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
             "name": "order.notification.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        },
+        {
+            "name": "order.delivered.queue",
             "vhost": "/",
             "durable": true,
             "auto_delete": false,
@@ -95,6 +109,30 @@
             "destination": "order.cancelled.queue",
             "destination_type": "queue",
             "routing_key": "order.cancelled",
+            "arguments": {}
+        },
+        {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.in_route.queue",
+            "destination_type": "queue",
+            "routing_key": "order.in_route",
+            "arguments": {}
+        },
+        {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.accepted.queue",
+            "destination_type": "queue",
+            "routing_key": "order.accepted",
+            "arguments": {}
+        },
+        {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.delivered.queue",
+            "destination_type": "queue",
+            "routing_key": "order.delivered",
             "arguments": {}
         },
         {
