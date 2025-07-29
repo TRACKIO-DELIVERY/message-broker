@@ -72,7 +72,15 @@
             "durable": true,
             "auto_delete": false,
             "arguments": {}
+        },
+        {
+            "name": "order.last-position.queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
         }
+
     ],
     "exchanges": [
         {
@@ -149,6 +157,14 @@
             "destination": "order.notification.queue",
             "destination_type": "queue",
             "routing_key": "",
+            "arguments": {}
+        },
+         {
+            "source": "order.direct",
+            "vhost": "/",
+            "destination": "order.last-position.queue",
+            "destination_type": "queue",
+            "routing_key": "order.last-position",
             "arguments": {}
         }
     ]
