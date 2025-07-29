@@ -9,8 +9,7 @@ services:
       - "5672:5672" # RabbitMQ AMQP protocol
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - ./definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq:/config
     healthcheck:
       test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
       interval: 10s
@@ -19,6 +18,9 @@ services:
     networks:
       - rabbitmq_net
       - default
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq_management load_definitions \"/config/definitions.json\""
+
 
 
 networks:
