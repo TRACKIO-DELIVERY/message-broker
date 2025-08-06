@@ -18,12 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build and cache message broker
-        uses: docker/bake-action@v6
-        with:
-          push: false
-          load: true
-          files: docker-compose.yml
+      - name: Test RabbitMQ connection
+        run: |
+          docker-compose -f docker-compose.yml up -d
+          docker-compose -f docker-compose.yml exec rabbitmq rabbitmqctl wait /var/lib/rabbitmq/mnesia/rabbit@$(hostname) --timeout 60
+          docker-compose -f docker-compose.yml exec rabbitmq rabbitmq-diagnostics ping
     
   sync_notify_trackio:
     if : github.event_name == 'push' && github.ref == 'refs/heads/main'
