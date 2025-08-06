@@ -17,13 +17,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+      
+      - name: Create Docker Network
+        run: docker network create --driver bridge rabbitmq_net || true
+      
       - name: Test RabbitMQ connection
         run: |
           docker-compose -f docker-compose.yml up -d
-          docker-compose -f docker-compose.yml exec rabbitmq rabbitmqctl wait /var/lib/rabbitmq/mnesia/rabbit@$(hostname) --timeout 60
+          sleep 15
           docker-compose -f docker-compose.yml exec rabbitmq rabbitmq-diagnostics ping
-    
+  
   sync_notify_trackio:
     if : github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
