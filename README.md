@@ -43,10 +43,8 @@ Cada fila pode ter um ou mais consumidores.
 
 
 ### Inicialize o message broker
-
-**Crie a rede utilizada na conexão com o container do rabbit**
 ```bash
-docker network create rabbitmq_net
+docker-compose up -d
 ```
-*Adicione essa rede nos serviços que irão se comunicar com o serviço do broker*
+*Adicione a rede `rabbitmq_net` nos serviços que irão se comunicar com o serviço do broker*
 <br>

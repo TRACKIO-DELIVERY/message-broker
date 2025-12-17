@@ -29,5 +29,4 @@ networks:
   
   rabbitmq_net:
     driver: bridge
-    external: true
     name: rabbitmq_net
